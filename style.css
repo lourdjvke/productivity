@@ -1,0 +1,26 @@
+<find>/* Add any custom styles here */</find>
+  <replace>/* Add any custom styles here */
+
+/* Keyframes for the bar fill animation */
+@keyframes barFill {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* Apply initial state and animation to each bar item */
+.slanted-bars-animation-container [data-slanted-bar-item] {
+  transform: scaleY(0); /* Start from 0 height */
+  transform-origin: bottom; /* Animate from the bottom */
+  animation-name: barFill;
+  animation-duration: 0.6s; /* Duration of each bar's animation */
+  animation-timing-function: ease-out; /* Smooth acceleration/deceleration */
+  animation-fill-mode: forwards; /* Keep the end state of the animation */
+  /* animation-delay will be set by JavaScript */
+}</replace>
+</file_change>
+
+<file_change path="script
