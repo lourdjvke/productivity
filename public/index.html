@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+ <head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+ <title>LEO Mobile App</title>
+ <link rel="stylesheet" href="./style.css" />
+ <link rel="preconnect" href="https://fonts.googleapis.com" />
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+ <script src="https://cdn.tailwindcss.com"></script>
+ <script src="https://unpkg.com/lucide@latest"></script>
+ </head>
+ <body class="mobile-app-body" style="--app-bg: #e6a930; --app-accent: #f65621; font-family: 'Inter', sans-serif;">
+ <!-- SVG Distortion Filter Definition for Liquid Glass Component -->
+ <svg width="0" height="0" style="position: absolute; pointer-events: none;" aria-hidden="true">
+ <defs>
+ <filter id="liquid-glass-distortion" x="0%" y="0%" width="100%" height="100%">
+ <feTurbulence type="fractalNoise" baseFrequency="0.012 0.012" numOctaves="2" seed="92" result="noise" />
+ <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+ <feDisplacementMap in="SourceGraphic" in2="blurred" scale="85" xChannelSelector="R" yChannelSelector="G" />
+ </filter>
+ </defs>
+ </svg>
+ <div id="pidLoader" hidden></div>
+ <main id="pidRoot"></main>
+ <script type="module" src="./main.js" data-leo-shell></script>
+ </body>
+</html>
