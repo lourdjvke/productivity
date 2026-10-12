@@ -1,0 +1,75 @@
+<nav class="absolute bottom-0 left-0 right-0 z-30 px-5 pt-3 pb-6 bg-gradient-to-t from-[#F7F8F4] via-[#F7F8F4] to-[#F7F8F4]/80 pointer-events-none" aria-label="Bottom Navigation">
+ <div class="flex items-center justify-between pointer-events-auto">
+ <!-- Navigation Pill / Tab Cluster -->
+ <div class="flex items-center gap-1.5 bg-[#FFFFFF] rounded-full p-1.5 border border-[#E9ECE4]">
+ <!-- Item 1: Together (Selected) -->
+ <button 
+ type="button" 
+ id="nav-together" 
+ class="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#E8F8EF] text-[#08B95D] font-bold text-xs transition-all duration-150 active:scale-95"
+ aria-selected="true"
+ onclick="selectNavTab('together')"
+ >
+ <img src="icons/users.svg" class="w-4 h-4 text-[#08B95D] filter-green" alt="Together" />
+ <span>Together</span>
+ </button>
+
+ <!-- Item 2: Insights -->
+ <button 
+ type="button" 
+ id="nav-insights" 
+ class="flex items-center gap-1.5 px-3 py-2 rounded-full text-[#92958F] font-semibold text-xs transition-all duration-150 active:scale-95 hover:text-[#171817]"
+ aria-selected="false"
+ onclick="selectNavTab('insights')"
+ >
+ <img src="icons/bar-chart-2.svg" class="w-4 h-4 opacity-60" alt="Insights" />
+ <span>Insights</span>
+ </button>
+
+ <!-- Item 3: Profile -->
+ <button 
+ type="button" 
+ id="nav-profile" 
+ class="flex items-center gap-1.5 px-3 py-2 rounded-full text-[#92958F] font-semibold text-xs transition-all duration-150 active:scale-95 hover:text-[#171817]"
+ aria-selected="false"
+ onclick="selectNavTab('profile')"
+ >
+ <img src="icons/user.svg" class="w-4 h-4 opacity-60" alt="Profile" />
+ <span>Profile</span>
+ </button>
+ </div>
+
+ <!-- Floating Action Button (FAB) -->
+ <button 
+ type="button" 
+ id="quick-log-fab" 
+ onclick="toggleLogModal()"
+ class="w-14 h-14 rounded-full bg-[#08B95D] hover:bg-[#07a452] active:scale-95 flex items-center justify-center transition-all duration-200 border-2 border-white"
+ aria-label="Quick Log Action"
+ >
+ <img src="icons/refresh-cw.svg" class="w-6 h-6 brightness-0 invert" alt="Sync Action" />
+ </button>
+ </div>
+</nav>
+
+<script>
+ function selectNavTab(tabName) {
+ const tabs = ['together', 'insights', 'profile'];
+ tabs.forEach(name => {
+ const btn = document.getElementById('nav-' + name);
+ if (!btn) return;
+ const img = btn.querySelector('img');
+ const span = btn.querySelector('span');
+ 
+ if (name === tabName) {
+ btn.className = "flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-[#E8F8EF] text-[#08B95D] font-bold text-xs transition-all duration-150 active:scale-95";
+ if (img) img.className = "w-4 h-4 text-[#08B95D]";
+ btn.setAttribute('aria-selected', 'true');
+ } else {
+ btn.className = "flex items-center gap-1.5 px-3 py-2 rounded-full text-[#92958F] font-semibold text-xs transition-all duration-150 active:scale-95 hover:text-[#171817]";
+ if (img) img.className = "w-4 h-4 opacity-60";
+ btn.setAttribute('aria-selected', 'false');
+ }
+ });
+ }
+</script>
