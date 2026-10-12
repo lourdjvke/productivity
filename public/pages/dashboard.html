@@ -1,0 +1,304 @@
+<screen index="1" name="Wellness &amp; Habit Dashboard" path="pages/dashboard.html">
+ <div class="relative w-full h-full flex flex-col bg-[#F7F8F4] overflow-hidden select-none">
+ 
+ <!-- Top System Status / Navigation Bar (Section 2.A) -->
+ <header class="w-full pt-4 pb-2 px-5 flex items-center justify-between shrink-0 bg-[#F7F8F4] z-20">
+ <!-- Left: Solid bright green circular indicator (~44-48px) with subtle soft green glow -->
+ <div class="flex items-center">
+ <button type="button" onclick="toggleAvatarModal()" class="w-11 h-11 rounded-full bg-[#08B95D] flex items-center justify-center transition-transform active:scale-95 border-2 border-white/60" aria-label="Wellness Status Indicator">
+ <span class="w-3.5 h-3.5 rounded-full bg-white/90"></span>
+ </button>
+ </div>
+
+ <!-- Right cluster: Flame icon + streak counter '12' & Hamburger menu icon -->
+ <div class="flex items-center gap-3.5">
+ <!-- Streak counter badge -->
+ <div class="flex items-center gap-1.5 bg-white/90 px-3 py-1.5 rounded-full border border-[#ECEEE7]">
+ <img src="icons/flame.svg" class="w-4 h-4 text-[#EAB85E]" alt="Streak Flame">
+ <span class="text-sm font-extrabold text-[#171817] tracking-tight">12</span>
+ </div>
+
+ <!-- Black hamburger menu icon -->
+ <button type="button" onclick="toggleSideMenu()" class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-black/5 active:scale-95 transition-transform" aria-label="Menu">
+ <img src="icons/menu.svg" class="w-6 h-6 text-[#171817]" alt="Menu">
+ </button>
+ </div>
+ </header>
+
+ <!-- Scrollable Body Content (independent vertical scroll, bottom space for floating nav) -->
+ <main class="flex-1 w-full overflow-y-auto no-scrollbar px-5 pb-28 pt-1" id="main-scroll-view">
+ 
+ <!-- HERO: Daily Goal Completion Hero (Section 2.B: 30-35% viewport) -->
+ <section class="w-full pt-1 pb-4 flex flex-col items-center justify-center relative select-none" aria-label="Daily Goal Completion">
+ 
+ <!-- Curved uppercase caption -->
+ <div class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#92958F] mb-1 curved-caption text-center">
+ Goals Reached Today
+ </div>
+
+ <!-- Center Row: Left Dot Cluster + Main 43% + Right Dot Cluster -->
+ <div class="relative w-full flex items-center justify-center my-0.5">
+ 
+ <!-- Left progress cluster: ~12 small circular dots in green shades -->
+ <div class="w-20 h-28 relative flex items-center justify-center select-none pointer-events-none" aria-hidden="true">
+ <!-- Glow background -->
+ <div class="absolute inset-0 bg-[#08B95D]/10 rounded-full blur-xl"></div>
+ <!-- Arranged in staggered vertical columns following a soft curved silhouette -->
+ <div class="relative w-full h-full flex justify-around items-center">
+ <!-- Col 1 -->
+ <div class="flex flex-col gap-2.5 items-center">
+ <span class="w-2.5 h-2.5 rounded-full bg-[#08B95D] opacity-90"></span>
+ <span class="w-2 h-2 rounded-full bg-[#48D5A0] opacity-75"></span>
+ <span class="w-3 h-3 rounded-full bg-[#08B95D] opacity-95"></span>
+ <span class="w-2 h-2 rounded-full bg-[#28D580] opacity-80"></span>
+ </div>
+ <!-- Col 2 -->
+ <div class="flex flex-col gap-3 items-center pt-2">
+ <span class="w-3.5 h-3.5 rounded-full bg-[#08B95D]"></span>
+ <span class="w-2.5 h-2.5 rounded-full bg-[#48D5A0] opacity-90"></span>
+ <span class="w-2 h-2 rounded-full bg-[#05964B] opacity-70"></span>
+ <span class="w-3 h-3 rounded-full bg-[#48D5A0] opacity-85"></span>
+ </div>
+ <!-- Col 3 -->
+ <div class="flex flex-col gap-2 items-center -pt-1">
+ <span class="w-2 h-2 rounded-full bg-[#48D5A0] opacity-60"></span>
+ <span class="w-3 h-3 rounded-full bg-[#08B95D] opacity-95"></span>
+ <span class="w-2.5 h-2.5 rounded-full bg-[#36C47A] opacity-85"></span>
+ <span class="w-2 h-2 rounded-full bg-[#08B95D] opacity-50"></span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Central Hero Number: Very large, bold black '43' + 'PERCENT' -->
+ <div class="flex flex-col items-center justify-center px-2 z-10">
+ <span class="text-[86px] leading-[0.88] font-black text-[#171817] tracking-tighter">
+ 43
+ </span>
+ <span class="text-[15px] font-black tracking-[0.22em] text-[#171817] mt-1 uppercase">
+ Percent
+ </span>
+ </div>
+
+ <!-- Right progress cluster: ~12 small circular dots in cyan and blue shades -->
+ <div class="w-20 h-28 relative flex items-center justify-center select-none pointer-events-none" aria-hidden="true">
+ <!-- Glow background -->
+ <div class="absolute inset-0 bg-[#11AFC9]/10 rounded-full blur-xl"></div>
+ <!-- Arranged in staggered vertical columns following a curved silhouette -->
+ <div class="relative w-full h-full flex justify-around items-center">
+ <!-- Col 1 -->
+ <div class="flex flex-col gap-2.5 items-center -pt-1">
+ <span class="w-2 h-2 rounded-full bg-[#28B8D0] opacity-60"></span>
+ <span class="w-3 h-3 rounded-full bg-[#11AFC9] opacity-95"></span>
+ <span class="w-2.5 h-2.5 rounded-full bg-[#1DC0DC] opacity-85"></span>
+ <span class="w-2 h-2 rounded-full bg-[#11AFC9] opacity-50"></span>
+ </div>
+ <!-- Col 2 -->
+ <div class="flex flex-col gap-3 items-center pt-2">
+ <span class="w-3.5 h-3.5 rounded-full bg-[#11AFC9]"></span>
+ <span class="w-2.5 h-2.5 rounded-full bg-[#28B8D0] opacity-90"></span>
+ <span class="w-2 h-2 rounded-full bg-[#0E8EA3] opacity-70"></span>
+ <span class="w-3 h-3 rounded-full bg-[#52CFE3] opacity-85"></span>
+ </div>
+ <!-- Col 3 -->
+ <div class="flex flex-col gap-2.5 items-center">
+ <span class="w-2.5 h-2.5 rounded-full bg-[#11AFC9] opacity-90"></span>
+ <span class="w-2 h-2 rounded-full bg-[#52CFE3] opacity-75"></span>
+ <span class="w-3 h-3 rounded-full bg-[#11AFC9] opacity-95"></span>
+ <span class="w-2 h-2 rounded-full bg-[#28B8D0] opacity-80"></span>
+ </div>
+ </div>
+ </div>
+
+ </div>
+
+ <!-- Pale-yellow comparison badge: '8TH YESTERDAY' with small trend indicator -->
+ <div class="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 bg-[#FEF9E7] text-[#9A7318] rounded-full border border-[#F6ECCB]">
+ <img src="icons/trending-up.svg" class="w-3 h-3 text-[#9A7318]" alt="Trend Up">
+ <span class="text-[10px] font-extrabold uppercase tracking-wider">8th Yesterday</span>
+ </div>
+
+ </section>
+
+ <!-- Section 2.C: Date, Legend, and Progress Section Header -->
+ <section class="w-full flex items-center justify-between pt-3 pb-2 text-xs" aria-label="Timeline Info">
+ <!-- Date label -->
+ <div class="text-[#92958F] font-semibold tracking-wide uppercase text-[11px]">
+ 10H / APR 20
+ </div>
+
+ <!-- Legend: Goal & All -->
+ <div class="flex items-center gap-4">
+ <!-- Green indicator + Goal -->
+ <div class="flex items-center gap-1.5">
+ <span class="w-2.5 h-2.5 rounded-full bg-[#08B95D]"></span>
+ <span class="text-[#92958F] font-medium text-[11px]">Goal</span>
+ </div>
+ <!-- Cyan indicator + All -->
+ <div class="flex items-center gap-1.5">
+ <span class="w-2.5 h-2.5 rounded-full bg-[#11AFC9]"></span>
+ <span class="text-[#92958F] font-medium text-[11px]">All</span>
+ </div>
+ </div>
+ </section>
+
+ <!-- Section 2.D: Today's Progress Heading -->
+ <section class="w-full pt-1 pb-3.5">
+ <h1 class="text-[23px] font-extrabold text-[#171817] leading-tight tracking-tight">
+ Today's Progress
+ </h1>
+ <p class="text-[13px] font-medium text-[#92958F] mt-0.5">
+ 4 of 7 goals in sync today
+ </p>
+ </section>
+
+ <!-- Section 3: Sleep Tracking Card (Full-width) -->
+ <article class="w-full bg-[#FFFFFF] rounded-[22px] p-5 mb-3.5 border border-[#ECEEE7] relative">
+ <!-- Header row -->
+ <div class="flex items-center justify-between mb-4">
+ <div class="flex items-center gap-2.5">
+ <div class="w-7 h-7 rounded-full bg-[#F2F3FA] flex items-center justify-center">
+ <img src="icons/moon.svg" class="w-4 h-4 text-[#B5B6D8]" alt="Sleep Icon">
+ </div>
+ <span class="text-[17px] font-bold text-[#171817]">Sleep</span>
+ </div>
+ <span class="text-xs font-semibold text-[#92958F] bg-[#F7F8F4] px-2.5 py-1 rounded-full">Optimal</span>
+ </div>
+
+ <!-- Metric comparison visualization: 7 slanted green bars vs clock vs 7 slanted cyan bars -->
+ <div class="flex items-center justify-between gap-2 px-1">
+ 
+ <!-- Left metric: Actual sleep (6h) with 7 slanted green segments -->
+ <div class="flex-1 flex flex-col items-center">
+ <div class="flex items-center justify-center gap-1.5 w-full h-8 slanted-bars-animation-container">
+ <!-- 7 slanted green segments -->
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar" data-slanted-bar-item=""></span>
+ <span class="w-2 h-6 bg-[#08B95D] slanted-bar opacity-30" data-slanted-bar-item=""></span>
+ </div>
+ <span class="text-[26px] font-extrabold text-[#171817] mt-1.5 tracking-tight">
+ 6h
+ </span>
+ </div>
+
+ <!-- Center separator: clock icon in muted lavender-gray stroke -->
+ <div class="w-8 flex flex-col items-center justify-center shrink-0 -mt-6">
+ <div class="w-6 h-6 rounded-full border border-[#B5B6D8] flex items-center justify-center">
+ <img src="icons/clock.svg" class="w-3.5 h-3.5 text-[#B5B6D8]" alt="Separator Clock">
+ </div>
+ </div>
+
+ <!-- Right metric: Target sleep (7h10m) with 7 slanted cyan segments -->
+ <div class="flex-1 flex flex-col items-center">
+ <div class="flex items-center justify-center gap-1.5 w-full h-8">
+ <!-- 7 slanted cyan segments -->
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ <span class="w-2 h-6 bg-[#11AFC9] slanted-bar"></span>
+ 
+ </div>
+ <span class="text-[26px] font-extrabold text-[#171817] mt-1.5 tracking-tight">
+ 7h10m
+ </span>
+ </div>
+
+ </div>
+ </article>
+
+ <!-- Section 4: Two-Column Wellness Metric Cards (Steps & Meditation) -->
+ <section class="grid grid-cols-2 gap-3.5 w-full">
+ 
+ <!-- 4.A: Steps Card -->
+ <article class="bg-[#FFFFFF] rounded-[22px] p-4 flex flex-col justify-between border border-[#ECEEE7] relative">
+ <!-- Header -->
+ <div class="flex items-center gap-2 mb-2">
+ <div class="w-6 h-6 rounded-full bg-[#FFF4E5] flex items-center justify-center">
+ <img src="icons/activity.svg" class="w-3.5 h-3.5 text-[#EAB85E]" alt="Steps Icon">
+ </div>
+ <span class="text-[15px] font-bold text-[#171817]">Steps</span>
+ </div>
+
+ <!-- Main visualization: Centered circular progress ring -->
+ <div class="flex items-center justify-center py-2.5">
+ <div class="progress-ring">
+ <div class="progress-ring-inner flex items-center justify-center">
+ <!-- Clean, airy center with subtle footstep glyph -->
+ <span class="w-2 h-2 rounded-full bg-[#11AFC9]/30"></span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Metrics at bottom: 2,200 (green) and 7,400 (cyan-blue target) -->
+ <div class="flex items-baseline justify-between pt-1 border-t border-[#F5F6F2]">
+ <div class="flex flex-col">
+ <span class="text-[9px] font-bold text-[#92958F] uppercase tracking-wider">Now</span>
+ <span class="text-[17px] font-black text-[#08B95D] tracking-tight">2,200</span>
+ </div>
+ <div class="flex flex-col items-end">
+ <span class="text-[9px] font-bold text-[#92958F] uppercase tracking-wider">Goal</span>
+ <span class="text-[17px] font-black text-[#11AFC9] tracking-tight">7,400</span>
+ </div>
+ </div>
+ </article>
+
+ <!-- 4.B: Meditation Card -->
+ <article class="bg-[#FFFFFF] rounded-[22px] p-4 flex flex-col justify-between border border-[#ECEEE7] relative">
+ <!-- Header -->
+ <div class="flex items-center gap-2 mb-2">
+ <div class="w-6 h-6 rounded-full bg-[#FEF8E6] flex items-center justify-center">
+ <img src="icons/sun.svg" class="w-3.5 h-3.5 text-[#EAB85E]" alt="Meditation Icon">
+ </div>
+ <span class="text-[15px] font-bold text-[#171817]">Meditation</span>
+ </div>
+
+ <!-- Main visualization: Minimalist circular indicators horizontally -->
+ <div class="flex items-center justify-center py-5 gap-3.5">
+ <!-- First circle: small and pale mint-green (placeholder/no data) -->
+ <div class="w-7 h-7 rounded-full bg-[#E8F8EF] border border-[#48D5A0]/40 flex items-center justify-center">
+ <span class="w-2 h-2 rounded-full bg-[#48D5A0]"></span>
+ </div>
+
+ <!-- Second circle: larger with soft cyan fill and subtle light-blue glow -->
+ <div class="w-14 h-14 rounded-full bg-[#E7F7FA] border border-[#11AFC9]/30 flex items-center justify-center shadow-[0_0_14px_rgba(17,175,201,0.22)]">
+ <span class="w-5 h-5 rounded-full bg-[#11AFC9]/80 flex items-center justify-center">
+ <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+ </span>
+ </div>
+ </div>
+
+ <!-- Metrics at bottom: '-' placeholder and '6 min' in blue -->
+ <div class="flex items-baseline justify-between pt-1 border-t border-[#F5F6F2]">
+ <div class="flex flex-col">
+ <span class="text-[9px] font-bold text-[#92958F] uppercase tracking-wider">Prev</span>
+ <span class="text-[17px] font-black text-[#92958F] tracking-tight">—</span>
+ </div>
+ <div class="flex flex-col items-end">
+ <span class="text-[9px] font-bold text-[#92958F] uppercase tracking-wider">Today</span>
+ <span class="text-[17px] font-black text-[#11AFC9] tracking-tight">6 min</span>
+ </div>
+ </div>
+ </article>
+
+ </section>
+
+ <!-- Habit Consistency Mini Strip (Supplementary Delight) -->
+ <section class="mt-3.5 bg-white/70 rounded-2xl p-3.5 border border-[#ECEEE7] flex items-center justify-between">
+ <div class="flex items-center gap-2.5">
+ <div class="w-8 h-8 rounded-full bg-[#E8F8EF] flex items-center justify-center">
+ <img src="icons/check.svg" class="w-4 h-4 text-[#08B95D]" alt="Habit Sync">
+ </div>
+ <div>
+ <div class="text-xs font-bold text-[#171817]">Daily Hydration &amp; Mindset</div>
+ <div class="text-[10px] font-medium text-[#92958F]">Synced 12 minutes ago</div>
+ </div>
+ </div>
+ <span class="px-2 py-0.5 rounded-md bg-[#08B95D]/10 text-[#08B95D] text-[10px] font-bold uppercase tracking-wider">
+ Completed
+ </span>
+ </section>
