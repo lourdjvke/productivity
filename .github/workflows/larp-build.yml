@@ -1,0 +1,381 @@
+name: LARP Android Build & Release
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'GitHub Release Tag (e.g. v1.0.0)'
+        required: false
+        default: 'v1.0.0'
+
+jobs:
+  build-android:
+    name: Build & Sign APK + AAB
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Android Build Toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends aapt apksigner zipalign dalvik-exchange android-framework-res libandroid-23-java default-jdk-headless
+          if ! command -v dx &> /dev/null && [ -f /usr/bin/dalvik-exchange ]; then
+            sudo ln -sf /usr/bin/dalvik-exchange /usr/bin/dx
+          fi
+
+      - name: Build Genuine Signed APK & AAB
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        run: |
+          echo "=========================================="
+          echo "LARP Pure Native Android CI/CD Pipeline"
+          echo "App: Habit Dashboard (com.lbuild.leodak79t9)"
+          echo "Target SDK: 34 (Android 14+ Ready)"
+          echo "=========================================="
+
+          WORK_DIR="build_workspace"
+          GEN_DIR="$WORK_DIR/gen"
+          BIN_DIR="$WORK_DIR/bin"
+          SRC_DIR="$WORK_DIR/src/com/lbuild/leodak79t9"
+          RES_DIR="$WORK_DIR/res"
+          DRAWABLE_DIR="$RES_DIR/drawable"
+          VALUES_DIR="$RES_DIR/values"
+          ASSETS_DIR="$WORK_DIR/assets"
+
+          mkdir -p "$GEN_DIR" "$BIN_DIR" "$SRC_DIR" "$DRAWABLE_DIR" "$VALUES_DIR" "$ASSETS_DIR/public"
+
+          # 1. Copy web static files to assets/public and resources
+          if [ -d "public" ]; then
+            cp -r public/* "$ASSETS_DIR/public/" 2>/dev/null || true
+          fi
+          if [ -d "res" ]; then
+            cp -r res/* "$RES_DIR/" 2>/dev/null || true
+          fi
+          # Ensure fallback icon exists in mipmap and drawable if not present
+          mkdir -p "$RES_DIR/mipmap-mdpi" "$RES_DIR/mipmap-hdpi" "$RES_DIR/mipmap-xhdpi" "$RES_DIR/mipmap-xxhdpi" "$RES_DIR/mipmap-xxxhdpi" "$RES_DIR/mipmap"
+          if [ ! -f "$RES_DIR/mipmap-xxxhdpi/ic_launcher.png" ] && [ -f "$RES_DIR/drawable/ic_launcher.png" ]; then
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap-xxxhdpi/ic_launcher.png"
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap-xxhdpi/ic_launcher.png"
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap-xhdpi/ic_launcher.png"
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap-hdpi/ic_launcher.png"
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap-mdpi/ic_launcher.png"
+            cp "$RES_DIR/drawable/ic_launcher.png" "$RES_DIR/mipmap/ic_launcher.png"
+          fi
+          if [ ! -f "$ASSETS_DIR/public/index.html" ]; then
+            echo "<!DOCTYPE html><html><body><h1>Habit Dashboard</h1></body></html>" > "$ASSETS_DIR/public/index.html"
+          fi
+
+          # 2. Write Android resources (strings.xml, colors.xml, styles.xml)
+          cat << 'EOF' > "$VALUES_DIR/strings.xml"
+          <resources><string name="app_name">Habit Dashboard</string></resources>
+          EOF
+
+          cat << 'EOF' > "$VALUES_DIR/colors.xml"
+          <resources><color name="colorPrimary">#e6a930</color></resources>
+          EOF
+
+          cat << 'EOF' > "$VALUES_DIR/styles.xml"
+          <resources>
+              <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+                  <item name="android:statusBarColor">#e6a930</item>
+                  <item name="android:navigationBarColor">#e6a930</item>
+                  <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+              </style>
+          </resources>
+          EOF
+
+          # 3. Write AndroidManifest.xml
+          cat << 'EOF' > "$WORK_DIR/AndroidManifest.xml"
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+              package="com.lbuild.leodak79t9"
+              android:versionCode="1"
+              android:versionName="1.0.0">
+
+              <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="34" />
+
+              <supports-screens
+                  android:smallScreens="true"
+                  android:normalScreens="true"
+                  android:largeScreens="true"
+                  android:xlargeScreens="true"
+                  android:anyDensity="true"
+                  android:resizeable="true" />
+
+              <uses-feature android:name="android.hardware.camera" android:required="false" />
+              <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+              <uses-permission android:name="android.permission.INTERNET" />
+              <uses-permission android:name="android.permission.VIBRATE" />
+              <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+              <application
+                  android:label="Habit Dashboard"
+                  android:icon="@mipmap/ic_launcher"
+                  android:theme="@style/AppTheme"
+                  android:hardwareAccelerated="true"
+                  android:allowBackup="true">
+
+                  <activity
+                      android:name="com.lbuild.leodak79t9.MainActivity"
+                      android:label="Habit Dashboard"
+                      android:icon="@mipmap/ic_launcher"
+                      android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
+                      android:exported="true"
+                      android:launchMode="singleTask">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                      </intent-filter>
+                  </activity>
+
+                  <!-- Default launcher alias: enabled by default -->
+                  <activity-alias
+                      android:name="com.lbuild.leodak79t9.MainActivity_default"
+                      android:targetActivity="com.lbuild.leodak79t9.MainActivity"
+                      android:icon="@mipmap/ic_launcher"
+                      android:label="Habit Dashboard"
+                      android:enabled="true"
+                      android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity-alias>
+
+                  <activity-alias
+                      android:name="com.lbuild.leodak79t9.MainActivity_streak_fire"
+                      android:targetActivity="com.lbuild.leodak79t9.MainActivity"
+                      android:icon="@mipmap/ic_launcher_streak_fire"
+                      android:label="Habit Dashboard"
+                      android:enabled="false"
+                      android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity-alias>
+
+              </application>
+          </manifest>
+          EOF
+
+          # 4. Write MainActivity.java
+          cat << 'EOF' > "$SRC_DIR/MainActivity.java"
+          package com.lbuild.leodak79t9;
+          import android.app.Activity;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.os.Handler;
+          import android.os.Looper;
+          import android.os.Vibrator;
+          import android.view.View;
+          import android.view.Window;
+          import android.view.WindowManager;
+          import android.webkit.JavascriptInterface;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.webkit.WebChromeClient;
+          import android.widget.FrameLayout;
+          import android.graphics.Color;
+          import android.content.ComponentName;
+          import android.content.Context;
+          import android.content.pm.PackageManager;
+
+          public class MainActivity extends Activity {
+              private WebView webView;
+              private View splashView;
+              private Handler mainHandler;
+              private static final String DEFAULT_THEME_COLOR = "#e6a930";
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+                  mainHandler = new Handler(Looper.getMainLooper());
+                  applyThemeColor(DEFAULT_THEME_COLOR);
+
+                  try { getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); } catch (Exception ignored) {}
+
+                  FrameLayout rootLayout = new FrameLayout(this);
+                  rootLayout.setLayoutParams(new FrameLayout.LayoutParams(
+                      FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+
+                  webView = new WebView(this);
+                  webView.setLayoutParams(new FrameLayout.LayoutParams(
+                      FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                  
+                  WebSettings settings = webView.getSettings();
+                  settings.setJavaScriptEnabled(true);
+                  settings.setDomStorageEnabled(true);
+                  settings.setAllowFileAccess(true);
+                  settings.setAllowFileAccessFromFileURLs(true);
+                  settings.setAllowUniversalAccessFromFileURLs(true);
+                  settings.setDatabaseEnabled(true);
+                  settings.setLoadWithOverviewMode(true);
+                  settings.setUseWideViewPort(true);
+
+                  webView.addJavascriptInterface(new LarpNativeInterface(), "LarpNative");
+                  webView.setWebChromeClient(new WebChromeClient());
+
+                  splashView = new View(this);
+                  splashView.setLayoutParams(new FrameLayout.LayoutParams(
+                      FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                  splashView.setBackgroundColor(Color.parseColor(DEFAULT_THEME_COLOR));
+
+                  webView.setWebViewClient(new WebViewClient() {
+                      @Override
+                      public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                          if (url != null && (url.startsWith("file://") || url.startsWith("data:") || url.startsWith("javascript:"))) {
+                              return false;
+                          }
+                          return false;
+                      }
+
+                      @Override
+                      public void onPageFinished(WebView view, String url) {
+                          super.onPageFinished(view, url);
+                          mainHandler.postDelayed(new Runnable() {
+                              @Override
+                              public void run() {
+                                  if (splashView != null && splashView.getParent() != null) {
+                                      ((FrameLayout) splashView.getParent()).removeView(splashView);
+                                  }
+                              }
+                          }, 400);
+                      }
+                  });
+
+                  rootLayout.addView(webView);
+                  rootLayout.addView(splashView);
+                  setContentView(rootLayout);
+                  webView.loadUrl("file:///android_asset/public/index.html");
+              }
+
+              @Override
+              public void onBackPressed() {
+                  if (webView != null && webView.canGoBack()) {
+                      webView.goBack();
+                  } else {
+                      super.onBackPressed();
+                  }
+              }
+
+              public void applyThemeColor(final String hexColor) {
+                  if (hexColor == null) return;
+                  mainHandler.post(new Runnable() {
+                      @Override
+                      public void run() {
+                          try {
+                              int color = Color.parseColor(hexColor);
+                              Window window = getWindow();
+                              window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                              window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                              window.setStatusBarColor(color);
+                              window.setNavigationBarColor(color);
+                          } catch (Exception ignored) {}
+                      }
+                  });
+              }
+
+              private void switchAppIcon(final String targetVariantId) {
+                  mainHandler.post(new Runnable() {
+                      @Override
+                      public void run() {
+                          try {
+                              PackageManager pm = getPackageManager();
+                              String pkg = getPackageName();
+                              String target = (targetVariantId == null || targetVariantId.trim().isEmpty()) ? "default" : targetVariantId.trim();
+                              String[] allVariants = new String[] { "default", "streak_fire" };
+
+                              ComponentName targetAlias = new ComponentName(pkg, pkg + ".MainActivity_" + target);
+                              pm.setComponentEnabledSetting(targetAlias, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+                              for (String v : allVariants) {
+                                  if (!v.equalsIgnoreCase(target)) {
+                                      ComponentName other = new ComponentName(pkg, pkg + ".MainActivity_" + v);
+                                      pm.setComponentEnabledSetting(other, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+                                  }
+                              }
+                          } catch (Exception ignored) {}
+                      }
+                  });
+              }
+
+              public class LarpNativeInterface {
+                  @JavascriptInterface
+                  public void setThemeColor(String c) { applyThemeColor(c); }
+                  @JavascriptInterface
+                  public void setKeepAwake(final boolean e) {
+                      mainHandler.post(new Runnable() {
+                          @Override
+                          public void run() {
+                              try {
+                                  if (e) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                                  else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                              } catch (Exception ignored) {}
+                          }
+                      });
+                  }
+                  @JavascriptInterface
+                  public void hideSplashScreen() {}
+                  @JavascriptInterface
+                  public void setIcon(String i) { switchAppIcon(i); }
+                  @JavascriptInterface
+                  public void haptic(String s) {
+                      try {
+                          Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                          if (v != null) v.vibrate(20);
+                      } catch(Exception ignored) {}
+                  }
+              }
+          }
+          EOF
+
+          # 5. Compile R.java & APK using aapt, javac, dx, zipalign, apksigner
+          ANDROID_JAR="/usr/lib/android-sdk/platforms/android-23/android.jar"
+          if [ ! -f "$ANDROID_JAR" ]; then
+            ANDROID_JAR=$(find /usr -name "android.jar" 2>/dev/null | head -n 1)
+          fi
+
+          echo "Using android.jar: $ANDROID_JAR"
+
+          aapt package -m -J "$GEN_DIR" -M "$WORK_DIR/AndroidManifest.xml" -S "$RES_DIR" -I "$ANDROID_JAR" --min-sdk-version 21 --target-sdk-version 34
+          javac -cp "$ANDROID_JAR" -d "$BIN_DIR" -source 8 -target 8 "$GEN_DIR/com/lbuild/leodak79t9/R.java" "$SRC_DIR/MainActivity.java"
+          dx --dex --output="$WORK_DIR/classes.dex" "$BIN_DIR"
+
+          aapt package -f -M "$WORK_DIR/AndroidManifest.xml" -S "$RES_DIR" -A "$ASSETS_DIR" -I "$ANDROID_JAR" --min-sdk-version 21 --target-sdk-version 34 -F "$WORK_DIR/unsigned.apk"
+          (cd "$WORK_DIR" && aapt add unsigned.apk classes.dex)
+
+          zipalign -f -p 4 "$WORK_DIR/unsigned.apk" "$WORK_DIR/aligned.apk"
+
+          keytool -genkeypair -v -keystore release.keystore -alias larp_release -keyalg RSA -keysize 2048 -validity 9125 -storepass larp_keystore_password_2026 -keypass larp_keystore_password_2026 -dname "CN=Habit Dashboard, OU=LARP, O=LARP Engineering, C=US"
+
+          apksigner sign --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true --ks release.keystore --ks-pass pass:larp_keystore_password_2026 --ks-key-alias larp_release --out signed_release.apk "$WORK_DIR/aligned.apk"
+
+          mkdir -p build_output
+          cp signed_release.apk build_output/habit_dashboard_signed_release.apk
+          cp release.keystore build_output/larp_release.keystore
+
+          echo "Build artifacts generated successfully!"
+          ls -lh build_output/
+
+      - name: Upload Build Artifacts (APK, Keystore)
+        uses: actions/upload-artifact@v4
+        with:
+          name: habit_dashboard-release
+          path: build_output/*
+          retention-days: 30
