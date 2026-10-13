@@ -1,0 +1,26 @@
+<div class="page-wrap doc-page">
+  <div class="breadcrumb"><span>LEO DOCS</span><span class="crumb-slash">/</span><span>EXAMPLES / REDIRECT</span></div>
+  <header class="doc-heading">
+    <div class="eyebrow"><span class="eyebrow-line"></span> REDIRECTS LIVE IN YOUR ROUTE MAP</div>
+    <h1>Old path.<br /><em>Right destination.</em></h1>
+    <p class="hero-lede">This page is the redirect demo. Follow the old contact path below: LEO resolves it to <code>/contact</code>, updates the address bar, and replaces the old route in browser history.</p>
+  </header>
+  <section class="doc-note redirect-card">
+    <span class="caption-marker">TRY IT</span>
+    <div>
+      <p><code>/old-contact</code> redirects to <code>/contact</code> using an entry in <code>data.json</code>.</p>
+      <a class="button button-primary" leo-pid="/old-contact">Visit /old-contact <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+  <div class="code-window">
+    <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>data.json</span><span class="code-lang">JSON</span></div>
+    <pre><code>"/old-contact": {
+  "redirect": {
+    "to": "/contact",
+    "replace": true
+  }
+}</code></pre>
+    <button class="copy-code" type="button" data-copy="&quot;/old-contact&quot;:{&quot;redirect&quot;:{&quot;to&quot;:&quot;/contact&quot;,&quot;replace&quot;:true}}">Copy snippet</button>
+  </div>
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> REDIRECTS</span><span>Keep the route map readable.</span><a leo-pid="/routing">Routes and transitions →</a></footer>
+</div>
