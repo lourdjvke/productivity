@@ -1,0 +1,112 @@
+<screen index="1" name="Off-White Carousel Page" path="pages/carouselPage.html">
+    <div class="min-h-screen bg-neutral-50 flex flex-col items-center py-8 px-4 pb-24"> <!-- Added pb-24 for navigator clearance -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-8">Portrait Carousel</h1>
+
+        <div class="relative w-full max-w-sm">
+            <!-- Carousel Wrapper -->
+            <div class="overflow-hidden rounded-lg shadow-lg bg-white p-2">
+                <!-- Carousel Track -->
+                <div id="carouselTrack" class="flex transition-transform duration-300 ease-in-out">
+                    <!-- Carousel Items -->
+                    <div class="w-full flex-shrink-0 p-2">
+                        <img src="https://via.placeholder.com/200x300/F0F0F0/333333?text=Image+1" alt="Carousel Image 1" class="w-full h-auto object-cover rounded-md shadow-sm">
+                    </div>
+                    <div class="w-full flex-shrink-0 p-2">
+                        <img src="https://via.placeholder.com/200x300/E0E0E0/333333?text=Image+2" alt="Carousel Image 2" class="w-full h-auto object-cover rounded-md shadow-sm">
+                    </div>
+                    <div class="w-full flex-shrink-0 p-2">
+                        <img src="https://via.placeholder.com/200x300/D0D0D0/333333?text=Image+3" alt="Carousel Image 3" class="w-full h-auto object-cover rounded-md shadow-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <button id="prevBtn" class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow-md hover:bg-white focus:outline-none">
+                <img src="icons/chevron-left.svg" class="w-6 h-6 text-gray-700" alt="Previous">
+            </button>
+            <button id="nextBtn" class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 bg-white/70 rounded-full p-2 shadow-md hover:bg-white focus:outline-none">
+                <img src="icons/chevron-right.svg" class="w-6 h-6 text-gray-700" alt="Next">
+            </button>
+        </div>
+
+        <!-- Pagination Dots -->
+        <div id="paginationDots" class="flex mt-4 space-x-2">
+            <span class="dot w-3 h-3 bg-gray-400 rounded-full cursor-pointer" data-index="0"></span>
+            <span class="dot w-3 h-3 bg-gray-200 rounded-full cursor-pointer" data-index="1"></span>
+            <span class="dot w-3 h-3 bg-gray-200 rounded-full cursor-pointer" data-index="2"></span>
+        </div>
+    </div>
+
+    <!-- Floating Liquid Glass Bottom Navigator -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 p-4">
+        <div class="flex justify-around items-center h-16 rounded-3xl shadow-xl backdrop-blur-md bg-white/30 border border-white/50">
+            <a href="#" class="flex flex-col items-center text-gray-800 hover:text-black transition-colors duration-200">
+                <img src="icons/home.svg" class="w-6 h-6" alt="Home">
+                <span class="text-xs mt-1">Home</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-800 hover:text-black transition-colors duration-200">
+                <img src="icons/search.svg" class="w-6 h-6" alt="Search">
+                <span class="text-xs mt-1">Search</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-800 hover:text-black transition-colors duration-200">
+                <img src="icons/heart.svg" class="w-6 h-6" alt="Favorites">
+                <span class="text-xs mt-1">Likes</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-800 hover:text-black transition-colors duration-200">
+                <img src="icons/user.svg" class="w-6 h-6" alt="Profile">
+                <span class="text-xs mt-1">Profile</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-800 hover:text-black transition-colors duration-200">
+                <img src="icons/settings.svg" class="w-6 h-6" alt="Settings">
+                <span class="text-xs mt-1">Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+        const carouselTrack = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationDots = document.getElementById('paginationDots');
+        const items = carouselTrack.children;
+        const totalItems = items.length;
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            carouselTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updatePaginationDots();
+        }
+
+        function updatePaginationDots() {
+            Array.from(paginationDots.children).forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-gray-200');
+                    dot.classList.add('bg-gray-400');
+                } else {
+                    dot.classList.remove('bg-gray-400');
+                    dot.classList.add('bg-gray-200');
+                }
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex === 0) ? totalItems - 1 : currentIndex - 1;
+            updateCarousel();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex === totalItems - 1) ? 0 : currentIndex + 1;
+            updateCarousel();
+        });
+
+        paginationDots.addEventListener('click', (event) => {
+            if (event.target.classList.contains('dot')) {
+                currentIndex = parseInt(event.target.dataset.index);
+                updateCarousel();
+            }
+        });
+
+        // Initial update
+        updateCarousel();
+    </script>
+</screen>
