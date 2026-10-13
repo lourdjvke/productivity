@@ -1,0 +1,80 @@
+<div class="page-wrap doc-page">
+  <div class="breadcrumb"><span>LEO DOCS</span><span class="crumb-slash">/</span><span>ROUTES &amp; TRANSITIONS</span></div>
+  <header class="doc-heading">
+    <div class="eyebrow"><span class="eyebrow-line"></span> URL IN, PAGE OUT</div>
+    <h1>A route is just<br /><em>a path and a file.</em></h1>
+    <p class="hero-lede">LEO reads the current URL, finds its entry in <code>data.json</code>, and replaces only the contents of <code>#pidRoot</code>. Your header, styles, and router stay mounted.</p>
+  </header>
+
+  <section class="doc-step">
+    <div class="doc-step__index">01</div>
+    <div class="doc-step__content">
+      <h2>Every transition clears the old page</h2>
+      <p>The previous page’s root children are removed before the new document’s body is mounted. Page-specific stylesheets are swapped too; site-wide stylesheets and scripts live in your outer shell.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>data.json</span><span class="code-lang">JSON</span></div>
+        <pre><code>{
+  "routes": {
+    "/": { "file": "pages/home.html" },
+    "/contact": {
+      "file": "pages/contact.html",
+      "scripts": ["pages/contact.js"]
+    }
+  }
+}</code></pre>
+        <button class="copy-code" type="button" data-copy="{&quot;routes&quot;:{&quot;/&quot;:{&quot;file&quot;:&quot;pages/home.html&quot;},&quot;/contact&quot;:{&quot;file&quot;:&quot;pages/contact.html&quot;,&quot;scripts&quot;:[&quot;pages/contact.js&quot;]}}}">Copy snippet</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-step">
+    <div class="doc-step__index">02</div>
+    <div class="doc-step__content">
+      <h2>Browser history still works</h2>
+      <p>LEO updates the address bar with the History API. Back, forward, reload, query strings, and URL fragments continue to work. A direct visit to <code>/contact</code> resolves to the same mapped HTML page.</p>
+      <div class="doc-example-strip"><span>HISTORY</span><span>/</span><b>→</b><span>/contact</span><b>→</b><span>/routing</span><span class="example-state">BACK / FORWARD</span></div>
+    </div>
+  </section>
+
+  <section class="doc-step">
+    <div class="doc-step__index">03</div>
+    <div class="doc-step__content">
+      <h2>Pick SPA or full-page mode</h2>
+      <p>Use <code>"mode": "spa"</code> for client-side page swaps. Use <code>"mode": "multi-page"</code> (or <code>"spa": false</code>) to let marked links perform a normal full-page navigation while keeping the same JSON route map for direct URLs. Your host must serve the shell at each clean path.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>data.json</span><span class="code-lang">JSON</span></div>
+        <pre><code>{
+  "mode": "multi-page",
+  "defaultRoute": "/",
+  "routes": {
+    "/": { "file": "pages/home.html" },
+    "/contact": { "file": "pages/contact.html" }
+  }
+}</code></pre>
+        <button class="copy-code" type="button" data-copy="{&quot;mode&quot;:&quot;multi-page&quot;,&quot;defaultRoute&quot;:&quot;/&quot;,&quot;routes&quot;:{&quot;/&quot;:{&quot;file&quot;:&quot;pages/home.html&quot;},&quot;/contact&quot;:{&quot;file&quot;:&quot;pages/contact.html&quot;}}}">Copy snippet</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-step">
+    <div class="doc-step__index">04</div>
+    <div class="doc-step__content">
+      <h2>Match path parameters and load JSON</h2>
+      <p>Use <code>:slug</code> for a dynamic segment and add a <code>data</code> path to fetch matching JSON. Bind values into ordinary HTML with <code>data-leo-text</code>, or read them from <code>LEO.currentRoute</code> and component modules.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>data.json</span><span class="code-lang">JSON</span></div>
+        <pre><code>"/posts/:slug": {
+  "file": "pages/post.html",
+  "data": "data/posts/:slug.json"
+}</code></pre>
+        <a class="copy-code" leo-pid="/posts/hello">Try /posts/hello →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-note">
+    <span class="caption-marker">JAVASCRIPT</span>
+    <p>Use <code>LEO.go("/contact")</code> or listen for <code>leo:routechange</code>. Component modules export <code>mount(context)</code> and return a cleanup function or an object with <code>update</code> and <code>unmount</code>. Each component's linked CSS stays inside its Shadow DOM.</p>
+  </section>
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> ROUTES &amp; TRANSITIONS</span><span>Plain HTML in. Plain HTML out.</span><a leo-pid="/posts/hello">Try the data route →</a></footer>
+</div>
