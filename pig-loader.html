@@ -1,8 +1,56 @@
-<div class="fixed inset-0 bg-white grid place-items-center z-50">
-  <div class="flex flex-col items-center gap-3">
-    <div class="w-24 h-2 bg-stone-200 rounded-full overflow-hidden">
-      <div class="h-full bg-[#fa7e55] rounded-full animate-pulse w-2/3"></div>
+<!doctype html>
+<html lang="en">
+  <body>
+    <style>
+      .leo-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        background: rgb(245 243 236 / 88%);
+        color: #20221f;
+        font: 13px/1.5 system-ui, sans-serif;
+        backdrop-filter: blur(3px);
+      }
+
+      .leo-loader__content {
+        display: grid;
+        justify-items: center;
+        gap: 12px;
+      }
+
+      .leo-loader__mark {
+        display: flex;
+        align-items: end;
+        gap: 3px;
+        height: 22px;
+      }
+
+      .leo-loader__mark i {
+        width: 5px;
+        border-radius: 4px 4px 1px 1px;
+        background: #ef6844;
+        animation: leo-loader-bob 650ms ease-in-out infinite alternate;
+      }
+
+      .leo-loader__mark i:nth-child(1) { height: 11px; }
+      .leo-loader__mark i:nth-child(2) { height: 20px; animation-delay: 100ms; }
+      .leo-loader__mark i:nth-child(3) { height: 14px; animation-delay: 200ms; }
+
+      @keyframes leo-loader-bob {
+        to { transform: translateY(-4px); opacity: .55; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .leo-loader__mark i { animation: none; }
+      }
+    </style>
+    <div class="leo-loader" role="status" aria-live="polite">
+      <div class="leo-loader__content">
+        <span class="leo-loader__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Loading page…</span>
+      </div>
     </div>
-    <div class="w-16 h-1.5 bg-stone-100 rounded-full"></div>
-  </div>
-</div>
+  </body>
+</html>
