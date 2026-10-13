@@ -1,0 +1,26 @@
+<div class="page-wrap doc-page">
+  <div class="breadcrumb"><span>LEO ROUTES</span><span class="crumb-slash">/</span><span data-leo-text="params.slug"></span></div>
+  <header class="doc-heading">
+    <div class="eyebrow"><span class="eyebrow-line"></span> DATA-DRIVEN ROUTE</div>
+    <h1 data-leo-text="data.post.title"></h1>
+    <p class="hero-lede" data-leo-text="data.post.summary"></p>
+  </header>
+
+  <section class="doc-step">
+    <div class="doc-step__index">01</div>
+    <div class="doc-step__content">
+      <h2>Parameters, data, and components</h2>
+      <p>The route data is available to component modules and page scripts as <code>LEO.currentRoute</code>. The counter below also gets its <code>start</code> value as a component prop.</p>
+      <leo-include
+        src="components/counter.html"
+        start="3"
+        aria-label="Interactive example counter"
+      >
+        <span slot="label" data-leo-text="data.post.counterLabel"></span>
+        <span>Slot content is supplied by the route page.</span>
+      </leo-include>
+    </div>
+  </section>
+
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> DATA ROUTE</span><span>One HTML file, route-specific JSON</span><a leo-pid="/routing">Back to routing guide →</a></footer>
+</div>
