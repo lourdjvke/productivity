@@ -1,0 +1,8 @@
+<link rel="stylesheet" href="counter.css">
+<script type="module" src="counter.js"></script>
+<article class="counter" aria-live="polite">
+  <div class="counter-label"><slot name="label">Component counter</slot></div>
+  <output data-count>0</output>
+  <button type="button" data-increment>Increase</button>
+  <div class="counter-note"><slot></slot></div>
+</article>
