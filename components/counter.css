@@ -1,0 +1,35 @@
+.counter {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  max-width: 260px;
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid #d7dccf;
+  background: #f3f5ef;
+}
+
+.counter-label {
+  color: #66745b;
+  font: 9px var(--mono, monospace);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.counter output {
+  color: #243126;
+  font: 600 32px/1 var(--display, sans-serif);
+}
+
+.counter button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  background: #263449;
+  color: white;
+  font: 11px var(--mono, monospace);
+  cursor: pointer;
+}
+
+.counter button:hover { background: #384d67; }
+.counter-note { color: #68695f; font: 11px/1.5 var(--body, sans-serif); }
