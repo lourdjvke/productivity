@@ -1,15 +1,11 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "mode": "spa",
-  "root": "#pidRoot",
-  "loaderRoot": "#pidLoader",
-  "loader": "pig-loader.html",
-  "loaderTiming": 400,
-  "loaderFadeDuration": 300,
-  "defaultRoute": "/",
+  "title": "productivity",
   "routes": {
-    "/": {
-      "file": "pages/dashboard.html",
-      "title": "Wellness & Habit Dashboard — LEO Mobile"
+    "/carouselPage": {
+      "file": "pages/carouselPage.html",
+      "title": "Off-White Carousel Page — LEO Mobile"
     }
   }
 }
