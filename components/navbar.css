@@ -1,0 +1,53 @@
+.topbar {
+  height: 66px;
+  padding: 0 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--leo-navbar-background, rgba(245, 243, 236, .94));
+  border-bottom: 1px solid var(--line, #d9d7cc);
+  backdrop-filter: blur(12px);
+}
+
+.topbar a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wordmark { display: inline-flex; align-items: center; gap: 10px; min-width: 240px; }
+.mark { display: flex; gap: 2px; align-items: end; height: 18px; width: 20px; }
+.mark i { display: block; width: 5px; border-radius: 4px 4px 1px 1px; background: var(--leo-navbar-accent, var(--orange, #d27b50)); }
+.mark i:nth-child(1) { height: 10px; }
+.mark i:nth-child(2) { height: 16px; }
+.mark i:nth-child(3) { height: 12px; }
+.wordmark-name { font: 700 20px/1 var(--display, sans-serif); letter-spacing: -.065em; }
+.wordmark-divider { height: 18px; width: 1px; background: #c6c3b8; margin: 0 2px 0 5px; }
+.wordmark-descriptor { font-size: 11px; color: #73746c; letter-spacing: .035em; }
+.topbar-center { display: flex; align-items: center; gap: 8px; color: #696b62; font-size: 11px; }
+.status-dot { width: 7px; height: 7px; background: #7a9669; border-radius: 50%; box-shadow: 0 0 0 3px #e4eadd; }
+.version { font: 10px var(--mono, monospace); padding: 4px 6px; border: 1px solid var(--line, #d9d7cc); border-radius: 3px; color: #83847b; margin-left: 4px; }
+.github-link { min-width: 240px; display: flex; justify-content: flex-end; gap: 9px; font-size: 11px; color: #64665d; }
+.external-arrow { color: var(--orange-deep, #aa5e3a); font-size: 13px; transition: transform .2s; }
+.github-link:hover .external-arrow { transform: translate(2px, -2px); }
+
+@media (max-width: 760px) {
+  .topbar { height: 59px; padding: 0 19px; }
+  .wordmark { min-width: 0; }
+  .wordmark-descriptor, .wordmark-divider { display: none; }
+  .topbar-center { font-size: 10px; }
+  .github-link { min-width: 0; font-size: 10px; }
+}
+
+@media (max-width: 430px) {
+  .topbar-center { display: none; }
+}
+.topbar {
+  background: var(--leo-navbar-background, rgba(245, 243, 236, .94));
+}
+
+.mark i {
+  background: var(--leo-navbar-accent, var(--orange));
+}
