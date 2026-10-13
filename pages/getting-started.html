@@ -1,0 +1,66 @@
+<div class="page-wrap doc-page">
+  <div class="breadcrumb"><span>LEO DOCS</span><span class="crumb-slash">/</span><span>FIRST SETUP</span></div>
+  <header class="doc-heading">
+    <div class="eyebrow"><span class="eyebrow-line"></span> START WITH THE FILES YOU HAVE</div>
+    <h1>Three files.<br /><em>One tidy router.</em></h1>
+    <p class="hero-lede">Put the router, route map, and loader beside your existing HTML. LEO does not ask you to reorganize your site or install a framework.</p>
+  </header>
+
+  <section class="doc-step">
+    <div class="doc-step__index">01</div>
+    <div class="doc-step__content">
+      <h2>Keep your pages as HTML</h2>
+      <p>Use full, normal HTML documents. In the shell page, add one element where routed page content should appear. Keep your shared header and navigation outside it.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>index.html</span><span class="code-lang">HTML</span></div>
+        <pre><code>&lt;header&gt;Your site navigation stays here&lt;/header&gt;
+&lt;main id="pidRoot"&gt;&lt;/main&gt;
+&lt;div id="pidLoader" hidden&gt;&lt;/div&gt;</code></pre>
+        <button class="copy-code" type="button" data-copy="&lt;header&gt;Your site navigation stays here&lt;/header&gt;&#10;&lt;main id=&quot;pidRoot&quot;&gt;&lt;/main&gt;&#10;&lt;div id=&quot;pidLoader&quot; hidden&gt;&lt;/div&gt;">Copy snippet</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-step">
+    <div class="doc-step__index">02</div>
+    <div class="doc-step__content">
+      <h2>Describe paths in <code>data.json</code></h2>
+      <p>Each route points to a regular HTML file. The included <code>pig-loader.html</code> is enabled by default; change the file name or set <code>"loader": false</code> to disable it.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>data.json</span><span class="code-lang">JSON</span></div>
+        <pre><code>{
+  "mode": "spa",
+  "loader": "pig-loader.html",
+  "defaultRoute": "/",
+  "routes": {
+    "/": { "file": "pages/home.html" },
+    "/contact": { "file": "pages/contact.html" }
+  }
+}</code></pre>
+        <button class="copy-code" type="button" data-copy="{&#10;  &quot;mode&quot;: &quot;spa&quot;,&#10;  &quot;loader&quot;: &quot;pig-loader.html&quot;,&#10;  &quot;defaultRoute&quot;: &quot;/&quot;,&#10;  &quot;routes&quot;: {&#10;    &quot;/&quot;: { &quot;file&quot;: &quot;pages/home.html&quot; },&#10;    &quot;/contact&quot;: { &quot;file&quot;: &quot;pages/contact.html&quot; }&#10;  }&#10;}">Copy snippet</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-step">
+    <div class="doc-step__index">03</div>
+    <div class="doc-step__content">
+      <h2>Mark only the links you want LEO to handle</h2>
+      <p>Point <code>leo-pid</code> at a path from your route map. Unmarked links remain regular browser links.</p>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>navigation.html</span><span class="code-lang">HTML</span></div>
+        <pre><code>&lt;a href="/contact" leo-pid="/contact"&gt;Contact&lt;/a&gt;
+
+&lt;!-- Use a normal link for files or external sites. --&gt;
+&lt;a href="/brochure.pdf"&gt;Download brochure&lt;/a&gt;</code></pre>
+        <button class="copy-code" type="button" data-copy="&lt;a href=&quot;/contact&quot; leo-pid=&quot;/contact&quot;&gt;Contact&lt;/a&gt;">Copy snippet</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-note">
+    <span class="caption-marker">SERVER NOTE</span>
+    <p>For clean URLs such as <code>/contact</code> to work after a reload, configure your static host to serve the router’s <code>index.html</code> for unknown paths. This project’s preview already does that.</p>
+  </section>
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> FIRST SETUP</span><span>Keep your files. Add only what you need.</span><a leo-pid="/routing">Next: routes and transitions →</a></footer>
+</div>
