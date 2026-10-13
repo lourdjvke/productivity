@@ -1,0 +1,73 @@
+<div class="page-wrap">
+  <div class="breadcrumb"><span>LEO DOCS</span><span class="crumb-slash">/</span><span>OVERVIEW</span></div>
+  <section class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="eyebrow-line"></span> A LITTLE ROUTING, A LOT OF HTML</div>
+      <h1>Keep the page.<br /><em>Lose the reload.</em></h1>
+      <p class="hero-lede">LEO gives ordinary static pages clean URLs and soft transitions. Keep writing the HTML, CSS, and JavaScript you already know.</p>
+      <div class="hero-actions">
+        <a leo-pid="/getting-started" class="button button-primary">Set up in a minute <span aria-hidden="true">→</span></a>
+        <a leo-pid="/routing" class="text-link">See how routing works <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="hero-footnote"><span class="tiny-check">✓</span> Works with files you already have</div>
+    </div>
+    <div class="hero-art" aria-label="Illustration of pages connected by routes">
+      <div class="art-topline"><span>THE SIMPLE VERSION</span><span>01 / 03</span></div>
+      <div class="route-canvas">
+        <div class="route-line route-line-a"></div><div class="route-line route-line-b"></div><div class="route-line route-line-c"></div>
+        <div class="route-node node-home"><span class="node-dot"></span><span class="node-path">/</span><span class="node-label">home.html</span></div>
+        <div class="route-node node-about"><span class="node-dot"></span><span class="node-path">/about</span><span class="node-label">about.html</span></div>
+        <div class="route-node node-contact"><span class="node-dot"></span><span class="node-path">/contact</span><span class="node-label">contact.html</span></div>
+        <div class="route-node node-redirect"><span class="node-path">↗</span><span class="node-label">redirect</span></div>
+        <div class="route-center"><span class="center-mark"><i></i><i></i><i></i></span><span>LEO</span></div>
+        <span class="canvas-coordinate coord-one">URL → VIEW</span><span class="canvas-coordinate coord-two">NO BUILD STEP</span>
+      </div>
+      <div class="art-footer"><span>ONE SMALL ROUTER</span><span>YOUR OWN PAGES</span></div>
+    </div>
+  </section>
+
+  <div class="signal-strip">
+    <div class="signal-intro"><span class="signal-symbol">↳</span><span>THE IDEA, IN THREE LINES</span></div>
+    <div class="signal-cell"><span class="signal-num">01</span><span>Links set the path.</span></div>
+    <div class="signal-cell"><span class="signal-num">02</span><span>LEO swaps the page.</span></div>
+    <div class="signal-cell"><span class="signal-num">03</span><span>Your markup stays yours.</span></div>
+  </div>
+
+  <section class="intro-section">
+    <div class="section-aside"><span class="section-kicker">01 — THE BASICS</span><span class="aside-rule"></span><span class="aside-note">Small by design.<br />Useful by default.</span></div>
+    <div class="section-main">
+      <div class="section-heading-row"><h2>HTML first.<br /><span>Everything else is optional.</span></h2><p class="section-intro">LEO is a tiny static router for ordinary pages. Components are optional HTML files; no framework or build step is required.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card"><span class="feature-mark mark-path">/</span><span class="feature-count">01</span><h3>Paths that make sense</h3><p>Give every page a tidy, shareable URL. Keep its source as a regular HTML file.</p><span class="feature-tail">CLEAN URLS <span>↗</span></span></article>
+        <article class="feature-card"><span class="feature-mark mark-transition"><i></i><i></i></span><span class="feature-count">02</span><h3>Transitions, not theatrics</h3><p>Move between pages without the full document blink. Your browser still feels like a browser.</p><span class="feature-tail">SOFT NAVIGATION <span>↗</span></span></article>
+        <article class="feature-card"><span class="feature-mark mark-code">&lt;/&gt;</span><span class="feature-count">03</span><h3>Nothing new to learn</h3><p>Plain links, plain files, a few attributes. Keep your tools and your mental model.</p><span class="feature-tail">JUST THE WEB <span>↗</span></span></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="code-section">
+    <div class="section-aside"><span class="section-kicker">02 — A TINY TASTE</span><span class="aside-rule"></span><span class="aside-note">You can copy this.<br />It really is this small.</span></div>
+    <div class="section-main">
+      <div class="code-heading"><div><h2>One attribute.<br /><span>One clean destination.</span></h2><p>Mark the links LEO should handle. Everything else behaves like a normal link.</p></div><span class="code-tag">HTML / 01</span></div>
+      <div class="code-window">
+        <div class="code-toolbar"><div class="window-lights"><i></i><i></i><i></i></div><span>index.html</span><span class="code-lang">HTML</span></div>
+        <pre><code><span class="code-muted">&lt;!-- This link is handled by LEO --&gt;</span>
+&lt;a <span class="code-key">leo-pid</span>=<span class="code-string">"/contact"</span>&gt;Get in touch&lt;/a&gt;
+
+<span class="code-muted">&lt;!-- This is still just your page --&gt;</span>
+&lt;main&gt;
+  &lt;h1&gt;A nice, ordinary page.&lt;/h1&gt;
+&lt;/main&gt;</code></pre>
+        <button class="copy-code" type="button" data-copy="&lt;a leo-pid=&quot;/contact&quot;&gt;Get in touch&lt;/a&gt;">Copy snippet <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="code-caption"><span class="caption-marker">NOTE</span><span>Use <code>leo-pid</code> on links you want LEO to route. Your normal anchors stay normal.</span></div>
+    </div>
+  </section>
+
+  <section class="next-section">
+    <div class="next-label">PICK UP A TOOL</div>
+    <div class="next-content"><h2>Ready to wire it up?</h2><p>Start with one script tag and one route. Add the rest when you need them.</p></div>
+    <a leo-pid="/getting-started" class="button button-dark">Go to first setup <span aria-hidden="true">→</span></a>
+  </section>
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> LEVITY OBJECTS</span><span>Made for people who like the web as it is.</span><span>DOCS BUILD 0.1.0</span></footer>
+</div>
