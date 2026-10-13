@@ -1,0 +1,7 @@
+{
+  "post": {
+    "title": "The same page, different data",
+    "summary": "This route uses the same HTML template and a different JSON file selected by its URL parameter.",
+    "counterLabel": "Second post counter"
+  }
+}
