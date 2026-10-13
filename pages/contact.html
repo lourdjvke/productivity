@@ -1,0 +1,28 @@
+<div class="page-wrap doc-page">
+  <div class="breadcrumb"><span>LEO DOCS</span><span class="crumb-slash">/</span><span>EXAMPLES / CONTACT</span></div>
+  <header class="doc-heading">
+    <div class="eyebrow"><span class="eyebrow-line"></span> THIS IS A REGULAR FILE</div>
+    <h1>Say hello.<br /><em>Keep it simple.</em></h1>
+    <p class="hero-lede">This page lives at <code>public/pages/contact.html</code>. It is plain HTML, mounted inside <code>#pidRoot</code> when the address is <code>/contact</code>.</p>
+  </header>
+  <section class="contact-sample">
+    <div>
+      <span class="section-kicker">THE ORIGINAL FILE</span>
+      <h2>Components.<br /><span>Still plain HTML.</span></h2>
+      <p>Use an ordinary HTML fragment where you need it. LEO loads it, its CSS, and its route links; no build step is involved.</p>
+      <a class="button button-primary" leo-pid="/redirect-demo">Try the redirect demo <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="contact-counter">
+      <span class="section-kicker">PAGE SCRIPT</span>
+      <p>The button below is wired by <code>pages/contact.js</code>.</p>
+      <button class="button button-dark" id="contact-demo-button" type="button">Hello, LEO <span aria-hidden="true">↗</span></button>
+      <output id="contact-demo-output" aria-live="polite">No framework loaded.</output>
+    </div>
+  </section>
+  <leo-include
+    src="components/callout.html"
+    class="contact-callout"
+    style="--leo-callout-background: #eaece2; --leo-callout-border: #dfe2d5; --leo-callout-accent: #7a9669;"
+  ></leo-include>
+  <footer class="page-footer"><span>LEO <span class="footer-sep">/</span> PAGES / CONTACT.HTML</span><span>Just another HTML document.</span><a leo-pid="/getting-started">How to set up →</a></footer>
+</div>
