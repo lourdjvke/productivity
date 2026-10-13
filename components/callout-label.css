@@ -1,0 +1,7 @@
+.section-kicker {
+  color: var(--orange-deep, #aa5e3a);
+  font: 9px var(--mono, monospace);
+  letter-spacing: .095em;
+  font-size: 8px;
+  white-space: nowrap;
+}
