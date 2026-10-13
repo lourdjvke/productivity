@@ -1,0 +1,7 @@
+{
+  "post": {
+    "title": "A route with a parameter",
+    "summary": "LEO matched /posts/:slug, loaded this JSON file for the slug, and bound its values into ordinary HTML.",
+    "counterLabel": "Interactive component"
+  }
+}
