@@ -1,0 +1,14 @@
+.leo-callout {
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border: 1px solid var(--leo-callout-border, #e4d8bf);
+  border-left: 3px solid var(--leo-callout-accent, var(--orange));
+  background: var(--leo-callout-background, #f4ecdc);
+}
+
+.leo-callout p {
+  margin: 7px 0 0;
+  color: var(--muted, #68695f);
+  font-size: 13px;
+  line-height: 1.6;
+}
