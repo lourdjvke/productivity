@@ -1,1 +1,10 @@
-const body=document.body;const touchButton=document.querySelector('#touchButton');const status=document.querySelector('#status');const iconImage=document.querySelector('#iconImage');const icons=['./icons/hand.svg','./icons/eye.svg','./icons/lock.svg'];let iconIndex=0;touchButton.addEventListener('click',()=>{body.classList.add('red');status.textContent='Boundary crossed.';touchButton.textContent='I SAID DON\'T TOUCH!';document.title='Touch me not — red state'});document.querySelector('#iconButton').addEventListener('click',()=>{iconIndex=(iconIndex+1)%icons.length;iconImage.src=icons[iconIndex];iconImage.alt=['Alternate hand icon','Alternate eye icon','Alternate lock icon'][iconIndex]});
+import { startLeo } from "./router.js";
+
+try {
+  await startLeo();
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+} catch (error) {
+  console.error("[LEO] Initialization failed:", error);
+} 
